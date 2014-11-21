@@ -1,0 +1,40 @@
+{
+  "name": "childish-process",
+  "description": "simple child_process exec & spawn",
+  "keywords": [
+    "child_process",
+    "exec",
+    "spawn"
+  ],
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/orlin/childish-process.git"
+  },
+  "bugs": {
+    "mail": "om@soundsapiens.com",
+    "url": "https://github.com/orlin/childish-process/issues"
+  },
+  "author": "Orlin M Bozhinov <om@soundsapiens.com>",
+  "contributors": [],
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "coffee-script": "^1.8.0",
+    "gulp": "^3.8.10",
+    "gulp-coffee": "^2.2.0",
+    "gulp-util": "^3.0.1",
+  },
+  "scripts": {
+    "gulp": "./node_modules/.bin/gulp"
+  },
+  "engines": {
+    "node": "0.10.x"
+  },
+  "licenses": [
+    {
+      "type": "Unlicense",
+      "url": "http://unlicense.org/"
+    }
+  ]
+}
