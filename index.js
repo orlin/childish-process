@@ -18,25 +18,42 @@ module.exports = {
     });
   },
   run: function(cmd, opts) {
-    var args, chips, command;
+    var args, chips, command, handlers;
     if (opts == null) {
       opts = {};
     }
     args = cmd.split(/\s+/);
     command = args.shift();
+    handlers = opts.eventHandlers;
     chips = spawn(command, args, opts);
     chips.stdout.on("data", function(data) {
-      return process.stdout.write(data);
+      if (typeof (handlers != null ? handlers.stdout : void 0) === "function") {
+        return handlers.stdout(data);
+      } else {
+        return process.stdout.write(data);
+      }
     });
     chips.stderr.on("data", function(data) {
-      return process.stderr.write(data);
+      if (typeof (handlers != null ? handlers.stderr : void 0) === "function") {
+        return handlers.stderr(data);
+      } else {
+        return process.stderr.write(data);
+      }
     });
     chips.on("error", function(err) {
-      return console.trace(JSON.stringify(err, null, 2));
+      if (typeof (handlers != null ? handlers.error : void 0) === "function") {
+        return handlers.error(err);
+      } else {
+        return console.trace(JSON.stringify(err, null, 2));
+      }
     });
     return chips.on("close", function(code) {
-      if (code !== 0) {
-        return console.log("This `" + cmd + "` process exited with code " + code + ".");
+      if (typeof (handlers != null ? handlers.close : void 0) === "function") {
+        return handlers.close(code);
+      } else {
+        if (code !== 0) {
+          return console.log("This `" + cmd + "` process exited with code " + code + ".");
+        }
       }
     });
   }

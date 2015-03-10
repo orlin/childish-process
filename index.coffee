@@ -17,13 +17,26 @@ module.exports =
   run: (cmd, opts = {}) ->
     args = cmd.split /\s+/
     command = args.shift()
+    handlers = opts.eventHandlers
     chips = spawn(command, args, opts)
     chips.stdout.on "data", (data) ->
-      process.stdout.write(data)
+      if typeof handlers?.stdout is "function"
+        handlers.stdout(data)
+      else
+        process.stdout.write(data)
     chips.stderr.on "data", (data) ->
-      process.stderr.write(data)
+      if typeof handlers?.stderr is "function"
+        handlers.stderr(data)
+      else
+        process.stderr.write(data)
     chips.on "error", (err) ->
-      console.trace JSON.stringify(err, null, 2)
+      if typeof handlers?.error is "function"
+        handlers.error(err)
+      else
+        console.trace JSON.stringify(err, null, 2)
     chips.on "close", (code) ->
-      unless code is 0
-        console.log "This `#{cmd}` process exited with code #{code}."
+      if typeof handlers?.close is "function"
+        handlers.close(code)
+      else
+        unless code is 0
+          console.log "This `#{cmd}` process exited with code #{code}."
