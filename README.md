@@ -16,6 +16,9 @@ The options may include a "childish" key with custom event handlers for any of:
 `"stdout"`, `"stderr"`, `"error"`, or `"close"`.
 It's unlikely that node will ever add a childish option to its `child_process`.
 
+See the [`handlers` function](https://github.com/orlin/childish-process/blob/active/index.coffee)
+and its defaults for what can be overridden via `childish` options.
+
 ## Unlicensed
 
 This is free and unencumbered public domain software.
