@@ -27,7 +27,7 @@ run = function(cmd, opts) {
   }
   args = cmd.split(/\s+/);
   command = args.shift();
-  handlers = opts.eventHandlers;
+  handlers = opts.childish;
   chips = spawn(command, args, opts);
   chips.stdout.on("data", function(data) {
     if (typeof (handlers != null ? handlers.stdout : void 0) === "function") {

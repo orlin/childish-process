@@ -17,7 +17,7 @@ exe = (cmd, opts, cb) ->
 run = (cmd, opts = {}) ->
   args = cmd.split /\s+/
   command = args.shift()
-  handlers = opts.eventHandlers
+  handlers = opts.childish
   chips = spawn(command, args, opts)
   chips.stdout.on "data", (data) ->
     if typeof handlers?.stdout is "function"
