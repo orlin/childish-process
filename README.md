@@ -1,12 +1,11 @@
 # childish-process
 
-*child_process for grown-ups*
----
-
 A simpler way to call spawn or exec of `child_process`.
 Makes it easy to call spawn with custom event-handlers.
 
 ## Use
+
+[![NPM](https://nodei.co/npm/childish-process.png?mini=true)](https://www.npmjs.org/package/childish-process)
 
 ```javascript
 var run = require('childish-process');
