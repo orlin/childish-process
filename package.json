@@ -28,6 +28,9 @@
     "gulp-sourcemaps": "^1.5.0",
     "gulp-util": "^3.0.4"
   },
+  "jshintConfig": {
+    "asi": true
+  },
   "scripts": {
     "gulp": "./node_modules/.bin/gulp"
   },
