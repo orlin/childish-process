@@ -1,9 +1,11 @@
-var exe, exec, ref, run, spawn,
+var exe, exec, handlers, merge, ref, run, spawn,
   slice = [].slice;
 
 require("source-map-support").install();
 
 ref = require("child_process"), exec = ref.exec, spawn = ref.spawn;
+
+merge = require("lodash.merge");
 
 exe = function(cmd, opts, cb) {
   return exec(cmd, opts, function(err, stdout, stderr) {
@@ -20,44 +22,54 @@ exe = function(cmd, opts, cb) {
   });
 };
 
+handlers = function(opts) {
+  var defaults;
+  defaults = {
+    stdout: function(data) {
+      return process.stdout.write(data);
+    },
+    stderr: function(data) {
+      return process.stderr.write(data);
+    },
+    error: function(err, context) {
+      return console.trace(JSON.stringify(err, null, 2));
+    },
+    close: function(code, context) {
+      if (code !== 0) {
+        return console.log("This `" + context.cmd + "` process exited with " + code + ".");
+      }
+    }
+  };
+  if (opts != null) {
+    return merge(defaults, opts);
+  } else {
+    return defaults;
+  }
+};
+
 run = function(cmd, opts) {
-  var args, chips, command, handlers;
+  var args, chips, command, context, handles;
   if (opts == null) {
     opts = {};
   }
   args = cmd.split(/\s+/);
   command = args.shift();
-  handlers = opts.childish;
+  handles = handlers(opts.childish);
+  context = {
+    "cmd": cmd
+  };
   chips = spawn(command, args, opts);
   chips.stdout.on("data", function(data) {
-    if (typeof (handlers != null ? handlers.stdout : void 0) === "function") {
-      return handlers.stdout(data);
-    } else {
-      return process.stdout.write(data);
-    }
+    return handles.stdout(data);
   });
   chips.stderr.on("data", function(data) {
-    if (typeof (handlers != null ? handlers.stderr : void 0) === "function") {
-      return handlers.stderr(data);
-    } else {
-      return process.stderr.write(data);
-    }
+    return handles.stderr(data);
   });
   chips.on("error", function(err) {
-    if (typeof (handlers != null ? handlers.error : void 0) === "function") {
-      return handlers.error(err);
-    } else {
-      return console.trace(JSON.stringify(err, null, 2));
-    }
+    return handles.error(err, context);
   });
   return chips.on("close", function(code) {
-    if (typeof (handlers != null ? handlers.close : void 0) === "function") {
-      return handlers.close(code);
-    } else {
-      if (code !== 0) {
-        return console.log("This `" + cmd + "` process exited with code " + code + ".");
-      }
-    }
+    return handles.close(code, context);
   });
 };
 

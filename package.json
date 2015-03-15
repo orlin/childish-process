@@ -19,6 +19,7 @@
   "contributors": [],
   "main": "index.js",
   "dependencies": {
+    "lodash.merge": "^3.0.3",
     "source-map-support": "^0.2.10"
   },
   "devDependencies": {

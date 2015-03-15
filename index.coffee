@@ -1,6 +1,7 @@
 require("source-map-support").install()
 
 {exec, spawn} = require("child_process")
+merge = require("lodash.merge")
 
 # exec #simple
 exe = (cmd, opts, cb) ->
@@ -13,34 +14,31 @@ exe = (cmd, opts, cb) ->
     else
       process.stdout.write(stdout)
 
+# event-handler defaults / overrides
+handlers = (opts) ->
+  defaults =
+    stdout: (data) -> process.stdout.write(data)
+    stderr: (data) -> process.stderr.write(data)
+    error: (err, context) -> console.trace JSON.stringify(err, null, 2)
+    close: (code, context) ->
+      unless code is 0
+        console.log "This `#{context.cmd}` process exited with #{code}."
+  if opts?
+    merge defaults, opts
+  else
+    defaults
+
 # spawn #simple
 run = (cmd, opts = {}) ->
   args = cmd.split /\s+/
   command = args.shift()
-  handlers = opts.childish
+  handles = handlers(opts.childish)
+  context = "cmd": cmd
   chips = spawn(command, args, opts)
-  chips.stdout.on "data", (data) ->
-    if typeof handlers?.stdout is "function"
-      handlers.stdout(data)
-    else
-      process.stdout.write(data)
-  chips.stderr.on "data", (data) ->
-    if typeof handlers?.stderr is "function"
-      handlers.stderr(data)
-    else
-      process.stderr.write(data)
-  chips.on "error", (err) ->
-    if typeof handlers?.error is "function"
-      handlers.error(err)
-    else
-      console.trace JSON.stringify(err, null, 2)
-  chips.on "close", (code) ->
-    if typeof handlers?.close is "function"
-      handlers.close(code)
-    else
-      unless code is 0
-        console.log "This `#{cmd}` process exited with code #{code}."
-
+  chips.stdout.on "data", (data) -> handles.stdout(data)
+  chips.stderr.on "data", (data) -> handles.stderr(data)
+  chips.on "error", (err) -> handles.error(err, context)
+  chips.on "close", (code) -> handles.close(code, context)
 
 module.exports = (cmd, args...) ->
   n = args.length
