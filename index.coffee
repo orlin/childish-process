@@ -2,6 +2,7 @@ require("source-map-support").install()
 
 {exec, spawn} = require("child_process")
 merge = require("lodash.merge")
+options = require("./options")
 
 # exec #simple
 exe = (cmd, opts, cb) ->
@@ -50,7 +51,9 @@ module.exports = (cmd, args...) ->
         # exe takes at most 3 arguments (here using the first & last of args)
         exe cmd, args[0], args[n - 1]
     else
-      # run takes at most 2 arguments
+      # run takes at most 2 arguments, the 2nd, options, could contain childish
+      if args[0].childish?
+        args[0].childish = options(args[0].childish) # special childish options
       run cmd, args[0]
   else
     run cmd

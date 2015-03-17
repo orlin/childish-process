@@ -1,4 +1,4 @@
-var exe, exec, handlers, merge, ref, run, spawn,
+var exe, exec, handlers, merge, options, ref, run, spawn,
   slice = [].slice;
 
 require("source-map-support").install();
@@ -6,6 +6,8 @@ require("source-map-support").install();
 ref = require("child_process"), exec = ref.exec, spawn = ref.spawn;
 
 merge = require("lodash.merge");
+
+options = require("./options");
 
 exe = function(cmd, opts, cb) {
   return exec(cmd, opts, function(err, stdout, stderr) {
@@ -85,6 +87,9 @@ module.exports = function() {
         return exe(cmd, args[0], args[n - 1]);
       }
     } else {
+      if (args[0].childish != null) {
+        args[0].childish = options(args[0].childish);
+      }
       return run(cmd, args[0]);
     }
   } else {
