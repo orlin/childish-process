@@ -25,7 +25,7 @@ handlers = (opts) ->
       unless code is 0
         console.log "This `#{context.cmd}` process exited with #{code}."
   if opts?
-    merge defaults, opts
+    merge({}, defaults, opts)
   else
     defaults
 
@@ -41,7 +41,7 @@ run = (cmd, opts = {}) ->
   chips.on "error", (err) -> handles.error(err, context)
   chips.on "close", (code) -> handles.close(code, context)
 
-module.exports = (cmd, args...) ->
+index = (cmd, args...) ->
   n = args.length
   if n > 0
     if typeof args[n - 1] is "function"
@@ -57,3 +57,20 @@ module.exports = (cmd, args...) ->
       run cmd, args[0]
   else
     run cmd
+
+module.exports = (what, rest...) ->
+  if arguments.length is 1 and typeof what is "object"
+    return (cmd, args...) ->
+      if args.length
+        if typeof args[args.length - 1] is "function"
+          # NOTE: exec ignores default options for now,
+          # as it doesn't need them like spawn (more useful and favored).
+          # Treating this as _YAGNI_, though it may be easy to implement...
+          index.apply null, arguments
+        else
+          index.call null, cmd, merge({}, what, args[0])
+      else
+        # spawn with no options - except `what`-ever defaults
+        index.apply null, arguments
+  else
+    index.apply null, arguments

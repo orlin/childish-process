@@ -1,0 +1,8 @@
+{ "default": {
+    "mode": "notify",
+    "strategy": "exiter",
+    "extends": false,
+    "verbose": false,
+    "failure": {"message": "The command has failed!"}
+  }
+}

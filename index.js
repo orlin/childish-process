@@ -1,4 +1,4 @@
-var exe, exec, handlers, merge, options, ref, run, spawn,
+var exe, exec, handlers, index, merge, options, ref, run, spawn,
   slice = [].slice;
 
 require("source-map-support").install();
@@ -43,7 +43,7 @@ handlers = function(opts) {
     }
   };
   if (opts != null) {
-    return merge(defaults, opts);
+    return merge({}, defaults, opts);
   } else {
     return defaults;
   }
@@ -75,7 +75,7 @@ run = function(cmd, opts) {
   });
 };
 
-module.exports = function() {
+index = function() {
   var args, cmd, n;
   cmd = arguments[0], args = 2 <= arguments.length ? slice.call(arguments, 1) : [];
   n = args.length;
@@ -94,6 +94,28 @@ module.exports = function() {
     }
   } else {
     return run(cmd);
+  }
+};
+
+module.exports = function() {
+  var rest, what;
+  what = arguments[0], rest = 2 <= arguments.length ? slice.call(arguments, 1) : [];
+  if (arguments.length === 1 && typeof what === "object") {
+    return function() {
+      var args, cmd;
+      cmd = arguments[0], args = 2 <= arguments.length ? slice.call(arguments, 1) : [];
+      if (args.length) {
+        if (typeof args[args.length - 1] === "function") {
+          return index.apply(null, arguments);
+        } else {
+          return index.call(null, cmd, merge({}, what, args[0]));
+        }
+      } else {
+        return index.apply(null, arguments);
+      }
+    };
+  } else {
+    return index.apply(null, arguments);
   }
 };
 

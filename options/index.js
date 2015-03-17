@@ -1,30 +1,6 @@
 var notifier = require('node-notifier')
 var merge = require('lodash.merge')
-
-var templates = {
-  "default": {
-    "mode": "notify",
-    "strategy": "exiter",
-    "extends": false,
-    "verbose": false,
-    "failure": {"message": "The command has failed!"}
-  },
-  "build-w": {
-    "strategy": "stdoer",
-    "extends": "default",
-    "failure": {"message": "The build has failed!"}
-  },
-  "test": {
-    "extends": "default",
-    "success": {"message": "The tests have passed."},
-    "failure": {"message": "Tests fail!"}
-  },
-  "test-part": {
-    "extends": "default",
-    "success": {"message": "The requested tests have passed."},
-    "failure": {"message": "Some tests fail!"}
-  }
-}
+var templates = require('./templates.json')
 
 var template = function (o) {
   // notification templates
@@ -89,18 +65,21 @@ var strategy = function (opts) {
 
 module.exports = function (options) {
   // NOTE: the strategy comes from the templates (probably) or options (both)
-  switch (typeof options) {
-    case "string":
-      // template name
-      return strategy(template(templates[options] || templates.default))
-    case "object":
-      var opts = template(options)
-      if (opts.mode === "notify") {
-        return strategy(opts)
-      }
-      else {
-        return opts
-      }
+  if (typeof options === "object") {
+    if (options.templates) {
+      merge(templates, options.templates)
+    }
+    if (options.template) {
+      return strategy(template(templates[options.template] || templates.default))
+    }
+    // TODO: when is this used?
+    var opts = template(options)
+    if (opts.mode === "notify") {
+      return strategy(opts)
+    }
+    else {
+      return opts
+    }
   }
   return {}
 }
