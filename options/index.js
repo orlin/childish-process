@@ -10,10 +10,10 @@ var template = function (o) {
     case "object":
       if (templates[o.extends]) {
         if (templates[o.extends].extends) {
-          return merge(templates[o.extends].extends, templates[o.extends], o)
+          return merge({}, templates[o.extends].extends, templates[o.extends], o)
         }
         else {
-          return merge(templates[o.extends], o)
+          return merge({}, templates[o.extends], o)
         }
       }
   }
@@ -26,13 +26,21 @@ var strategies = {
     return {
       "close": function(code) {
         if (opts.verbose) {
-          console.log('exiter.on("close") opts: ', opts)
+          console.log('exiter.on("close") called with:\n' + opts)
         }
         if (code === 0) {
-          notifier.notify(opts.success)
+          if (opts.success)
+            notifier.notify(opts.success, function (err, response) {
+              // NOTE: response could be handled via options fn or custom strategy
+              if (err) console.error(err)
+            })
         }
         else {
-          notifier.notify(opts.failure)
+          if (opts.failure)
+            notifier.notify(opts.failure, function (err, response) {
+              // NOTE: response could be handled via options fn or custom strategy
+              if (err) console.error(err)
+            })
         }
       }
     }
@@ -67,18 +75,18 @@ module.exports = function (options) {
   // NOTE: the strategy comes from the templates (probably) or options (both)
   if (typeof options === "object") {
     if (options.templates) {
+      // NOTE: intentional mutation here
       merge(templates, options.templates)
     }
     if (options.template) {
       return strategy(template(templates[options.template] || templates.default))
     }
-    // TODO: when is this used?
-    var opts = template(options)
+    // TODO: when are these used?
     if (opts.mode === "notify") {
-      return strategy(opts)
+      return strategy(template(options))
     }
     else {
-      return opts
+      return template(options)
     }
   }
   return {}
