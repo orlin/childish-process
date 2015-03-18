@@ -2,8 +2,10 @@ var merge = require('lodash.merge')
 var templates = require('./templates.json')
 var strategies = require('./strategies.js')
 
+// Gets the options of a template; extends the template options if extend is set.
+// The template is about options.  This function does nothing but get, or extend.
+// TODO: Except maybe it should auto-extend when given a string...
 var template = function (o) {
-  // notification templates
   switch (typeof o) {
     case "string":
       return templates[o] || templates.default
@@ -31,6 +33,8 @@ var invoke = function (opts) {
   }
 }
 
+// The point of this is to produce valid event handlers
+// for childish-process.run, given "childish": options.
 module.exports = function (options) {
   if (typeof options === "object") {
     // NOTE: intentional mutations of templates and strategies
@@ -39,11 +43,11 @@ module.exports = function (options) {
     if (options.template) {
       // being given options.template - means we'd like to run it
       // maybe rename to invoke, or something more intuitive?
-      return invoke(templates[options.template] || templates.default)
+      return invoke(template(options.template))
     }
     else {
-      // perhaps because we'd like to see what the options would become,
-      // given a template's options?
+      // Perhaps because we'd like to see what extend would do to the options.
+      // TODO: shouldn't we be able to invoke based on options without template?
       return template(options)
     }
   }
