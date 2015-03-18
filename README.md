@@ -2,6 +2,8 @@
 
 A simpler way to call spawn or exec of `child_process`.
 Makes it easy to call spawn with custom event-handlers.
+Makes options easy to template, extend, invoke strategies,
+generating event-handlers that can notify, for example.
 
 ## Use
 
@@ -20,6 +22,12 @@ It's unlikely that node will ever add a childish option to its `child_process`.
 
 See the [`handlers` function](https://github.com/orlin/childish-process/blob/active/index.coffee)
 and its defaults for what can be overridden via `childish` options.
+
+### Options
+
+The options are getting a huge upgrade, to be documented and probably tested.
+For now, I'm calling this an alpha so I can release some other module dependents.
+Meanwhile, example usage can be found in [datomiki](https://github.com/datomicon/datomiki)
 
 ## Unlicensed
 
