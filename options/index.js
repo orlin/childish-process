@@ -20,33 +20,32 @@ var template = function (o) {
   return o
 }
 
-var strategy = function (opts) {
-  //var opts = template(o)
-  if (typeof opts.strategy === "function") {
-    return opts.strategy(opts)
+var invoke = function (opts) {
+  // NOTE: the strategy comes from the templates (probably) or options (both)
+  var o = template(opts)
+  if (typeof o.strategy === "function") {
+    return o.strategy(o)
   }
   else {
-    return (strategies[opts.strategy] || strategies.exiter)(opts)
+    return (strategies[o.strategy] || strategies.exiter)(o)
   }
 }
 
 module.exports = function (options) {
-  // NOTE: the strategy comes from the templates (probably) or options (both)
   if (typeof options === "object") {
-    if (options.templates) {
-      // NOTE: intentional mutation here
-      merge(templates, options.templates)
-    }
+    // NOTE: intentional mutations of templates and strategies
+    if (options.templates) merge(templates, options.templates)
+    if (options.strategies) merge(strategies, options.strategies)
     if (options.template) {
-      return strategy(template(templates[options.template] || templates.default))
-    }
-    // TODO: when are these used?
-    if (opts.mode === "notify") {
-      return strategy(template(options))
+      // being given options.template - means we'd like to run it
+      // maybe rename to invoke, or something more intuitive?
+      return invoke(templates[options.template] || templates.default)
     }
     else {
+      // perhaps because we'd like to see what the options would become,
+      // given a template's options?
       return template(options)
     }
   }
-  return {}
+  else return {}
 }

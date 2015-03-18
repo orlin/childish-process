@@ -1,5 +1,4 @@
 { "default": {
-    "mode": "notify",
     "strategy": "exiter",
     "extends": false,
     "verbose": false,
