@@ -1,18 +1,6 @@
-var notifier = require('node-notifier')
 var merge = require('lodash.merge')
 var templates = require('./templates.json')
-
-var notify = function (something) {
-  notifier.notify(something, function (err, response) {
-    // NOTE: response could be handled via options fn or custom strategy notify
-    if (err) {
-      console.error(err)
-      notifier.notify({
-        message: 'Notification failure, check the error log for details.'
-      })
-    }
-  })
-}
+var strategies = require('./strategies.js')
 
 var template = function (o) {
   // notification templates
@@ -30,39 +18,6 @@ var template = function (o) {
       }
   }
   return o
-}
-
-var strategies = {
-  "exiter": function (opts) {
-    // the default strategy
-    return {
-      "close": function(code) {
-        if (opts.verbose) {
-          console.log('exiter.on("close") called with:\n' + opts)
-        }
-        if (code === 0) {
-          if (opts.success) notify(opts.success)
-        }
-        else {
-          if (opts.failure) notify(opts.failure)
-        }
-      }
-    }
-  },
-  "stdoer": function (opts) {
-    var recipe = {}
-    if (opts.success) {
-      recipe.stdout = function(data) {
-        notify(opts.success)
-      }
-    }
-    if (opts.failure) {
-      recipe.stderr = function(data) {
-        notify(opts.failure)
-      }
-    }
-    return recipe
-  }
 }
 
 var strategy = function (opts) {
