@@ -24,17 +24,25 @@
     "source-map-support": "^0.2.10"
   },
   "devDependencies": {
+    "babel": "^4.7.16",
+    "babel-eslint": "^2.0.2",
+    "chai": "^2.1.2",
     "coffee-script": "^1.9.1",
+    "eslint": "^0.17.1",
     "gulp": "^3.8.11",
     "gulp-coffee": "^2.3.1",
     "gulp-sourcemaps": "^1.5.0",
-    "gulp-util": "^3.0.4"
+    "gulp-util": "^3.0.4",
+    "jshint": "^2.6.3",
+    "mocha": "^2.2.1"
   },
   "jshintConfig": {
-    "asi": true
+    "asi": true,
+    "node": true
   },
   "scripts": {
-    "gulp": "./node_modules/.bin/gulp"
+    "gulp": "./node_modules/.bin/gulp",
+    "test": "./node_modules/.bin/mocha"
   },
   "engines": {
     "node": ">= 0.10.0"

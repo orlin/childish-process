@@ -1,0 +1,10 @@
+{
+  "parser": "babel-eslint",
+  "env": {
+    "node": true
+  },
+  "rules": {
+    "semi": [1, "never"],
+    "quotes": [1, "single", "avoid-escape"]
+  }
+}
