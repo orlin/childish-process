@@ -1,5 +1,5 @@
 --recursive
---compilers js:babel/register
+--compilers es6:babel/register
 --require test/common
 --reporter tap
 --ui bdd
