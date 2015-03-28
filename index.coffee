@@ -75,6 +75,6 @@ module.exports = (what, rest...) ->
           index.call null, cmd, merge({}, what, args[0])
       else
         # spawn with no options - except `what`-ever defaults
-        index.apply null, arguments
+        index.apply null, cmd
   else
     index.apply null, arguments
