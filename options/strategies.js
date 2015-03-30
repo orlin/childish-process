@@ -19,6 +19,26 @@ module.exports = {
     }
   },
 
+  "outerr": function (opts) {
+    // a variation of exiter - anything printed to stdout or stderr means error
+    // though it's pretty much exactly like the stdoer, except it's all failure
+    // it helps with scripts that don't set the exit code properly
+    // if the command is otherwise silent this could be a way to handle it
+    var recipe = {}
+    if (opts.failure) {
+      recipe.stdout = function(data) {
+        notify(opts.failure)
+        console.log(data.toString())
+      }
+      recipe.stderr = function(data) {
+        notify(opts.failure)
+        console.error(data.toString())
+        // TODO: the strategy has done its job, yet could it trigger an exit-1?
+      }
+    }
+    return recipe
+  },
+
   "stdoer": function (opts) {
     var recipe = {}
     if (opts.success) {
