@@ -13,7 +13,7 @@ var success = function () {
   return {
     "title": "#OK",
     "message": "It's all good.",
-    "icon": path.join(__dirname, "icons", "ok-sticker.png")
+    "icon": path.join(__dirname, "icons", "ok-sticker.jpg")
   }
 }
 
