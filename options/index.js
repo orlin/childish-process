@@ -1,5 +1,5 @@
 var merge = require('lodash.merge')
-var templates = require('./templates.json')
+var templates = require('./templates.js')
 var strategies = require('./strategies.js')
 
 // Gets the options of a template; extends the template options if extend is set.

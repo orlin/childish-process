@@ -29,10 +29,6 @@
     "coffee-script": "^1.9.1",
     "gulp": "^3.8.11"
   },
-  "jshintConfig": {
-    "asi": true,
-    "node": true
-  },
   "scripts": {
     "build": "node_modules/.bin/coffee-inline-map -b -o index.js index.coffee"
   },
