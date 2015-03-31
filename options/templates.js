@@ -21,14 +21,14 @@ module.exports = {
   "default": {
     "strategy": "exiter",
     "extends": false,
-    "verbose": false,
+    "debug": false,
     "failure": failure()
   },
   "notify": {
     "strategy": "exiter",
     "extends": false,
-    "verbose": false,
-    "success": success(),
+    "debug": false,
+    "success": success(), // always notifies on exit
     "failure": failure()
   }
 }
