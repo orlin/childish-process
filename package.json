@@ -6,7 +6,7 @@
     "exec",
     "spawn"
   ],
-  "version": "0.0.4-alpha",
+  "version": "0.0.4-alpha.1",
   "repository": {
     "type": "git",
     "url": "git://github.com/orlin/childish-process.git"
@@ -24,17 +24,13 @@
     "source-map-support": "^0.2.10"
   },
   "devDependencies": {
+    "beverage": "0.0.0-2",
+    "coffee-inline-map": "^0.7.0",
     "coffee-script": "^1.9.1",
-    "gulp": "^3.8.11",
-    "gulp-coffee": "^2.3.1",
-    "gulp-sourcemaps": "^1.5.0",
-    "gulp-util": "^3.0.4"
-  },
-  "jshintConfig": {
-    "asi": true
+    "gulp": "^3.8.11"
   },
   "scripts": {
-    "gulp": "./node_modules/.bin/gulp"
+    "build": "node_modules/.bin/coffee-inline-map -b -o index.js index.coffee"
   },
   "engines": {
     "node": ">= 0.10.0"

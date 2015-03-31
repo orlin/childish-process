@@ -31,11 +31,15 @@ handlers = (opts) ->
 
 # spawn #simple
 run = (cmd, opts = {}) ->
-  args = cmd.split /\s+/
-  command = args.shift()
+  unless typeof cmd is "string"
+    console.log "Expecting command string, instead got:"
+    console.log cmd
+    throw new Error "Wrong command type: '#{typeof cmd}'."
+  cmdArgs = cmd.split /\s+/
+  command = cmdArgs.shift()
   handles = handlers(opts.childish)
   context = "cmd": cmd
-  chips = spawn(command, args, opts)
+  chips = spawn(command, cmdArgs, opts)
   chips.stdout.on "data", (data) -> handles.stdout(data)
   chips.stderr.on "data", (data) -> handles.stderr(data)
   chips.on "error", (err) -> handles.error(err, context)
@@ -71,6 +75,6 @@ module.exports = (what, rest...) ->
           index.call null, cmd, merge({}, what, args[0])
       else
         # spawn with no options - except `what`-ever defaults
-        index.apply null, arguments
+        index.call null, cmd
   else
     index.apply null, arguments
