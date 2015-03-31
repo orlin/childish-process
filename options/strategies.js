@@ -6,7 +6,7 @@ module.exports = {
     // the default strategy
     return {
       "close": function(code) {
-        if (opts.verbose) {
+        if (opts.debug) {
           console.log('exiter.on("close") called with:\n' + opts)
         }
         if (code === 0) {
