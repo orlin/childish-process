@@ -1,0 +1,8 @@
+{
+  "scripts": {
+    "include": {
+      "build": "Compile coffee with inline source-map."
+    }
+  },
+  "causality": ["build", ["index.coffee"]]
+}

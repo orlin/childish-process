@@ -29,6 +29,11 @@ The options are getting a huge upgrade, to be documented and probably tested.
 For now, I'm calling this an alpha so I can release some other module dependents.
 Meanwhile, example usage can be found in [datomiki](https://github.com/datomicon/datomiki)
 
+## Dependencies
+
+[![Dependency Status](https://david-dm.org/orlin/childish-process.svg)](https://david-dm.org/orlin/childish-process)
+[![devDependency Status](https://david-dm.org/orlin/childish-process/dev-status.svg)](https://david-dm.org/orlin/childish-process#info=devDependencies)
+
 ## Unlicensed
 
 This is free and unencumbered public domain software.
