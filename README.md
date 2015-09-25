@@ -23,11 +23,12 @@ It's unlikely that node will ever add a childish option to its `child_process`.
 See the [`handlers` function](https://github.com/orlin/childish-process/blob/active/index.coffee)
 and its defaults for what can be overridden via `childish` options.
 
-### Options
+### Configuration
 
-The options are getting a huge upgrade, to be documented and probably tested.
-For now, I'm calling this an alpha so I can release some other module dependents.
-Meanwhile, example usage can be found in [datomiki](https://github.com/datomicon/datomiki)
+The configuration options are getting a huge upgrade, to be documented and probably tested.
+Meanwhile, example usage can be found in [datomiki](https://github.com/datomicon/datomiki)'s
+`gulpfile.js` and `notifications.json`,
+while [gulp-npm-test](https://github.com/orlin/gulp-npm-test) is an example for code usage.
 
 ## Dependencies
 

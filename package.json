@@ -7,7 +7,7 @@
     "spawn",
     "notify"
   ],
-  "version": "0.0.4-alpha.1",
+  "version": "0.0.4",
   "repository": {
     "type": "git",
     "url": "git://github.com/orlin/childish-process.git"
