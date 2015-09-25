@@ -5,5 +5,9 @@
     }
   },
   "causality": ["build", ["index.coffee"]],
-  "sourcegate": [{"recipe": "coffeelint", "preset": "coffeescript-style-guide"}]
+  "sourcegate": [
+    {"recipe": "coffeelint", "preset": "coffeescript-style-guide"},
+    {"recipe": "jshint"},
+    {"recipe": "jscs"}
+  ]
 }
