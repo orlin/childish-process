@@ -4,7 +4,8 @@ var exe, exec, handlers, index, merge, options, ref, run, spawn,
 
 require("source-map-support").install();
 
-ref = require("child_process"), exec = ref.exec, spawn = ref.spawn;
+ref = require("child_process"), exec = ref.exec;
+spawn = require('cross-spawn-async');
 
 merge = require("lodash.merge");
 
