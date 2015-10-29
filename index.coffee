@@ -1,6 +1,7 @@
 require("source-map-support").install()
 
-{exec, spawn} = require("child_process")
+exec = require("child_process").exec
+spawn = require('cross-spawn-async')
 merge = require("lodash.merge")
 options = require("./options")
 

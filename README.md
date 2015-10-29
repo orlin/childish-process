@@ -13,8 +13,8 @@ generating event-handlers that can notify, for example.
 var run = require('childish-process');
 ```
 
-- `run(command[, options]);` calls `child_process.spawn`
-- `run(command[, options], callback);` calls `child_process.exec`
+- `run(command[, options]);` same as `child_process.spawn` though using [cross-spawn-async](https://github.com/IndigoUnited/node-cross-spawn-async) for better Windows support
+- `run(command[, options], callback);` delegates to `child_process.exec`
 
 The options may include a "childish" key with custom event handlers for any of:
 `"stdout"`, `"stderr"`, `"error"`, or `"close"`.
