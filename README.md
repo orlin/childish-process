@@ -1,4 +1,4 @@
-# childish-process
+# childish-process [![version npm](https://img.shields.io/npm/v/childish-process.svg?style=flat-square)](https://www.npmjs.com/package/childish-process)
 
 A simpler way to call spawn or exec of `child_process`.
 Makes it easy to call spawn with custom event-handlers.
